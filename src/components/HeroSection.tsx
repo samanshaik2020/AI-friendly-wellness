@@ -26,7 +26,7 @@ const HeroSection: React.FC = () => {
             your wellbeing anytime, anywhere.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
-            <Link to="/chat">
+            <Link to="/onboarding">
               <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-lg pulse-animation">
                 Start Chatting
               </Button>

@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
               FAQ
             </Link>
           </div>
-          <Link to="/chat">
+          <Link to="/onboarding">
             <Button className="bg-gray-900 hover:bg-gray-800 text-white rounded-full px-6">
               Get Started <span className="ml-1">→</span>
             </Button>

@@ -1,10 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Send, Heart } from 'lucide-react';
+import { User, Send, Heart, Loader2 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { sendChatMessage, formatChatHistory } from '@/lib/openrouter-api';
 
 interface Message {
   id: number;
@@ -51,7 +53,11 @@ const TinyBaymax: React.FC<{ className?: string; style?: React.CSSProperties }> 
 
 const ChatInterface: React.FC = () => {
   const isMobile = useIsMobile();
+  const location = useLocation();
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const initialMessageProcessedRef = useRef(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -61,8 +67,72 @@ const ChatInterface: React.FC = () => {
     }
   ]);
 
-  const handleSendMessage = () => {
-    if (input.trim()) {
+  // Scroll to bottom of chat when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  
+  // Process initial message from onboarding if available
+  useEffect(() => {
+    const processInitialMessage = async () => {
+      // Check if we have an initial message from the onboarding flow
+      const initialMessage = location.state?.initialMessage;
+      
+      if (initialMessage && !initialMessageProcessedRef.current) {
+        initialMessageProcessedRef.current = true; // Prevent processing multiple times
+        
+        // Add user message
+        const userMessage: Message = {
+          id: messages.length + 1,
+          text: initialMessage,
+          sender: 'user',
+          timestamp: new Date()
+        };
+        const updatedMessages = [...messages, userMessage];
+        setMessages(updatedMessages);
+        
+        // Process the message with the AI
+        setIsLoading(true);
+        try {
+          // Format chat history for the API
+          const chatHistory = formatChatHistory(updatedMessages);
+          
+          // Get response from OpenRouter API
+          const response = await sendChatMessage(initialMessage, chatHistory);
+          
+          // Add Baymax response
+          const baymaxMessage: Message = {
+            id: updatedMessages.length + 1,
+            text: response,
+            sender: 'baymax',
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, baymaxMessage]);
+        } catch (error) {
+          console.error('Error getting AI response:', error);
+          // Add error message
+          const errorMessage: Message = {
+            id: updatedMessages.length + 1,
+            text: "I'm having trouble analyzing your information right now. Please try again in a moment.",
+            sender: 'baymax',
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, errorMessage]);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    
+    processInitialMessage();
+  }, [location.state]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSendMessage = async () => {
+    if (input.trim() && !isLoading) {
       // Add user message
       const userMessage: Message = {
         id: messages.length + 1,
@@ -70,49 +140,71 @@ const ChatInterface: React.FC = () => {
         sender: 'user',
         timestamp: new Date()
       };
-      setMessages([...messages, userMessage]);
+      const updatedMessages = [...messages, userMessage];
+      setMessages(updatedMessages);
       setInput('');
+      setIsLoading(true);
       
-      // Simulate Baymax response
-      setTimeout(() => {
+      try {
+        // Format chat history for the API
+        const chatHistory = formatChatHistory(updatedMessages);
+        
+        // Get response from OpenRouter API (Llama 4 Scout)
+        const response = await sendChatMessage(input, chatHistory);
+        
+        // Add Baymax response
         const baymaxMessage: Message = {
-          id: messages.length + 2,
-          text: "I'm analyzing your symptoms. Remember, I'm here to provide information and support, but always consult with a healthcare professional for medical advice.",
+          id: updatedMessages.length + 1,
+          text: response,
           sender: 'baymax',
           timestamp: new Date()
         };
         setMessages(prev => [...prev, baymaxMessage]);
-      }, 1000);
+      } catch (error) {
+        console.error('Error getting AI response:', error);
+        // Add error message
+        const errorMessage: Message = {
+          id: updatedMessages.length + 1,
+          text: "I'm having trouble connecting right now. Please try again in a moment.",
+          sender: 'baymax',
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, errorMessage]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] relative bg-blue-50/30">
-      {/* Tiny Baymax models scattered around */}
-      <TinyBaymax className="top-[10%] left-[5%] animate-float" style={{ animationDelay: '0s' }} />
-      <TinyBaymax className="top-[30%] right-[8%] animate-float" style={{ animationDelay: '1.5s' }} />
-      <TinyBaymax className="bottom-[25%] left-[12%] animate-float" style={{ animationDelay: '2.3s' }} />
-      <TinyBaymax className="top-[15%] right-[25%] animate-float" style={{ animationDelay: '0.7s' }} />
-      <TinyBaymax className="bottom-[15%] right-[15%] animate-float" style={{ animationDelay: '3.1s' }} />
-      {isMobile && (
-        <>
-          <TinyBaymax className="top-[45%] left-[80%] animate-float" style={{ animationDelay: '1.8s' }} />
-          <TinyBaymax className="bottom-[35%] left-[30%] animate-float" style={{ animationDelay: '2.5s' }} />
-        </>
-      )}
-      {!isMobile && (
-        <>
-          <TinyBaymax className="top-[60%] left-[20%] animate-float" style={{ animationDelay: '1.2s' }} />
-          <TinyBaymax className="top-[70%] right-[30%] animate-float" style={{ animationDelay: '3.5s' }} />
-          <TinyBaymax className="top-[20%] left-[40%] animate-float" style={{ animationDelay: '0.9s' }} />
-          <TinyBaymax className="bottom-[10%] left-[55%] animate-float" style={{ animationDelay: '2.7s' }} />
-        </>
-      )}
+      {/* Tiny Baymax models scattered around with reduced opacity */}
+      <div className="opacity-20">
+        <TinyBaymax className="top-[10%] left-[5%] animate-float" style={{ animationDelay: '0s' }} />
+        <TinyBaymax className="top-[30%] right-[8%] animate-float" style={{ animationDelay: '1.5s' }} />
+        <TinyBaymax className="bottom-[25%] left-[12%] animate-float" style={{ animationDelay: '2.3s' }} />
+        <TinyBaymax className="top-[15%] right-[25%] animate-float" style={{ animationDelay: '0.7s' }} />
+        <TinyBaymax className="bottom-[15%] right-[15%] animate-float" style={{ animationDelay: '3.1s' }} />
+        {isMobile && (
+          <>
+            <TinyBaymax className="top-[45%] left-[80%] animate-float" style={{ animationDelay: '1.8s' }} />
+            <TinyBaymax className="bottom-[35%] left-[30%] animate-float" style={{ animationDelay: '2.5s' }} />
+          </>
+        )}
+        {!isMobile && (
+          <>
+            <TinyBaymax className="top-[60%] left-[20%] animate-float" style={{ animationDelay: '1.2s' }} />
+            <TinyBaymax className="top-[70%] right-[30%] animate-float" style={{ animationDelay: '3.5s' }} />
+            <TinyBaymax className="top-[20%] left-[40%] animate-float" style={{ animationDelay: '0.9s' }} />
+            <TinyBaymax className="bottom-[10%] left-[55%] animate-float" style={{ animationDelay: '2.7s' }} />
+          </>
+        )}
+      </div>
       
       {/* Chat interface */}
       <div className="flex flex-col h-full relative z-20">
         {/* Messages container */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4" id="chat-messages">
           {messages.map((message) => (
             <div 
               key={message.id} 
@@ -128,7 +220,48 @@ const ChatInterface: React.FC = () => {
                       : 'bg-white/80 backdrop-blur-sm shadow-sm border border-gray-100'
                   }`}
                 >
-                  <p>{message.text}</p>
+                  <div className="whitespace-pre-line">
+                    {message.sender === 'baymax' 
+                      ? (() => {
+                          // First, handle any HTML tags already in the text
+                          let processedText = message.text;
+                          
+                          // Convert markdown-style bold to HTML
+                          processedText = processedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                          
+                          // Split by line breaks
+                          return processedText.split('\n').map((line, i) => {
+                            // Skip empty lines but preserve spacing
+                            if (line.trim() === '') return <div key={`empty-${i}`} className="h-2"></div>;
+                            
+                            // Check for nested lists (indented items)
+                            const isNestedListItem = line.match(/^\s+\d+\.\s/);
+                            const isListItem = line.match(/^\d+\.\s/);
+                            const isBulletPoint = line.match(/^\*\s/);
+                            const isHeading = line.match(/^[A-Z][^:]+:/);
+                            
+                            // Apply appropriate styling based on line type
+                            if (isNestedListItem) {
+                              return (
+                                <p key={i} className="ml-6 my-1" dangerouslySetInnerHTML={{ __html: line.trim() }} />
+                              );
+                            } else if (isListItem || isHeading) {
+                              return (
+                                <p key={i} className="font-bold my-1" dangerouslySetInnerHTML={{ __html: line }} />
+                              );
+                            } else if (isBulletPoint) {
+                              return (
+                                <p key={i} className="ml-2 my-1" dangerouslySetInnerHTML={{ __html: line }} />
+                              );
+                            } else {
+                              // Regular line with possible HTML tags
+                              return <p key={i} className="my-1" dangerouslySetInnerHTML={{ __html: line }} />;
+                            }
+                          });
+                        })()
+                      : message.text
+                    }
+                  </div>
                   <p className={`text-xs mt-1 ${message.sender === 'user' ? 'text-blue-100' : 'text-gray-400'}`}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
@@ -136,6 +269,24 @@ const ChatInterface: React.FC = () => {
               </div>
             </div>
           ))}
+          
+          {/* Loading indicator */}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="flex max-w-[80%] flex-row">
+                <BaymaxAvatar />
+                <div className="mx-2 p-4 rounded-2xl bg-white/80 backdrop-blur-sm shadow-sm border border-gray-100">
+                  <div className="flex items-center space-x-2">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                    <p className="text-gray-500">Thinking...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Invisible div for auto-scrolling */}
+          <div ref={messagesEndRef} />
         </div>
         
         {/* Input area */}
@@ -153,9 +304,14 @@ const ChatInterface: React.FC = () => {
             />
             <Button 
               onClick={handleSendMessage}
-              className="rounded-full bg-primary hover:bg-primary/90 h-10 w-10 p-0 flex items-center justify-center"
+              disabled={isLoading || !input.trim()}
+              className="rounded-full bg-primary hover:bg-primary/90 h-10 w-10 p-0 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Send className="h-5 w-5" />
+              {isLoading ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <Send className="h-5 w-5" />
+              )}
             </Button>
           </div>
           <p className="text-xs text-gray-500 mt-2 text-center max-w-4xl mx-auto">

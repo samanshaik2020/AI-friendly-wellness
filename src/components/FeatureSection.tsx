@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageCircle, Brain, Food } from 'lucide-react';
+import { MessageCircle, Brain, Utensils } from 'lucide-react';
 
 const features = [
   {
@@ -14,7 +14,7 @@ const features = [
     description: "Get gentle, thoughtful insights about your health powered by advanced medical AI."
   },
   {
-    icon: <Food className="h-12 w-12 text-primary" />,
+    icon: <Utensils className="h-12 w-12 text-primary" />,
     title: "Get suggestions on medicine, food, and recovery time",
     description: "Receive personalized recommendations to help you feel better faster."
   }

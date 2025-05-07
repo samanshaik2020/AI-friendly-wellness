@@ -38,7 +38,7 @@ const HeroSection: React.FC = () => {
         </div>
         <div className="lg:w-1/2 relative">
           <div className="w-full h-[400px] flex items-center justify-center">
-            <img alt="Baymax" className="w-[300px] h-[300px] object-contain animate-float" src="/lovable-uploads/72979835-6b20-4265-8a96-811ed131da3d.jpg" />
+            <img alt="Baymax" className="w-[300px] h-[300px] object-contain animate-float" src="/lovable-uploads/6d66ca49-c82e-41ea-b547-9772e066f53f.png" />
           </div>
         </div>
       </div>

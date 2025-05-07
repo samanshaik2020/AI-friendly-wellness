@@ -28,16 +28,15 @@ const UserAvatar: React.FC = () => (
   </Avatar>
 );
 
-const BaymaxAnimation: React.FC = () => (
-  <div className="flex justify-center items-center h-full">
-    <div className="bg-white/90 rounded-2xl max-w-[300px] h-[300px] flex items-center justify-center shadow-md border border-gray-100 animate-float">
-      <div className="relative w-[80%] h-[80%] rounded-full bg-gray-50 flex items-center justify-center border border-gray-200">
-        <Heart className="absolute h-10 w-10 text-baymax-red animate-pulse" />
-        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[60%] h-[2px]">
-          <div className="w-full h-full flex justify-between">
-            <div className="w-2 h-2 rounded-full bg-black" />
-            <div className="w-2 h-2 rounded-full bg-black" />
-          </div>
+// Tiny Baymax model component
+const TinyBaymax: React.FC<{ className?: string }> = ({ className }) => (
+  <div className={`${className} absolute`}>
+    <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-200 shadow-sm">
+      <Heart className="absolute h-3 w-3 text-baymax-red animate-pulse" />
+      <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[60%] h-[1px]">
+        <div className="w-full h-full flex justify-between">
+          <div className="w-1 h-1 rounded-full bg-black" />
+          <div className="w-1 h-1 rounded-full bg-black" />
         </div>
       </div>
     </div>
@@ -83,10 +82,26 @@ const ChatInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] relative bg-blue-50/30">
-      {/* Baymax model in background or side based on screen size */}
-      <div className={`${isMobile ? 'absolute top-0 left-0 w-full h-1/3 z-10 opacity-80' : 'absolute top-0 left-0 w-1/2 h-full'}`}>
-        <BaymaxAnimation />
-      </div>
+      {/* Tiny Baymax models scattered around */}
+      <TinyBaymax className="top-[10%] left-[5%] animate-float" />
+      <TinyBaymax className="top-[30%] right-[8%] animate-float" style={{ animationDelay: '1.5s' }} />
+      <TinyBaymax className="bottom-[25%] left-[12%] animate-float" style={{ animationDelay: '2.3s' }} />
+      <TinyBaymax className="top-[15%] right-[25%] animate-float" style={{ animationDelay: '0.7s' }} />
+      <TinyBaymax className="bottom-[15%] right-[15%] animate-float" style={{ animationDelay: '3.1s' }} />
+      {isMobile && (
+        <>
+          <TinyBaymax className="top-[45%] left-[80%] animate-float" style={{ animationDelay: '1.8s' }} />
+          <TinyBaymax className="bottom-[35%] left-[30%] animate-float" style={{ animationDelay: '2.5s' }} />
+        </>
+      )}
+      {!isMobile && (
+        <>
+          <TinyBaymax className="top-[60%] left-[20%] animate-float" style={{ animationDelay: '1.2s' }} />
+          <TinyBaymax className="top-[70%] right-[30%] animate-float" style={{ animationDelay: '3.5s' }} />
+          <TinyBaymax className="top-[20%] left-[40%] animate-float" style={{ animationDelay: '0.9s' }} />
+          <TinyBaymax className="bottom-[10%] left-[55%] animate-float" style={{ animationDelay: '2.7s' }} />
+        </>
+      )}
       
       {/* Chat interface */}
       <div className="flex flex-col h-full relative z-20">

@@ -28,17 +28,23 @@ const UserAvatar: React.FC = () => (
   </Avatar>
 );
 
-// Tiny Baymax model component
-const TinyBaymax: React.FC<{ className?: string }> = ({ className }) => (
-  <div className={`${className} absolute`}>
-    <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-200 shadow-sm">
-      <Heart className="absolute h-3 w-3 text-baymax-red animate-pulse" />
-      <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[60%] h-[1px]">
-        <div className="w-full h-full flex justify-between">
-          <div className="w-1 h-1 rounded-full bg-black" />
-          <div className="w-1 h-1 rounded-full bg-black" />
-        </div>
+// Improved Baymax model component
+const TinyBaymax: React.FC<{ className?: string; style?: React.CSSProperties }> = ({ className, style }) => (
+  <div className={`${className} absolute`} style={style}>
+    <div className="relative w-12 h-16 bg-white rounded-t-full rounded-b-2xl flex flex-col items-center justify-center border border-gray-200 shadow-md">
+      {/* Heart indicator */}
+      <div className="absolute top-1/4 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+        <Heart className="h-2 w-2 text-baymax-red animate-pulse" />
       </div>
+      
+      {/* Eyes */}
+      <div className="absolute top-[40%] w-6 h-2 flex justify-between">
+        <div className="w-1.5 h-1.5 bg-black rounded-full opacity-80"></div>
+        <div className="w-1.5 h-1.5 bg-black rounded-full opacity-80"></div>
+      </div>
+      
+      {/* Subtle line for the mouth/connection point */}
+      <div className="absolute bottom-2 w-4 h-[1px] bg-gray-300"></div>
     </div>
   </div>
 );
@@ -83,7 +89,7 @@ const ChatInterface: React.FC = () => {
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] relative bg-blue-50/30">
       {/* Tiny Baymax models scattered around */}
-      <TinyBaymax className="top-[10%] left-[5%] animate-float" />
+      <TinyBaymax className="top-[10%] left-[5%] animate-float" style={{ animationDelay: '0s' }} />
       <TinyBaymax className="top-[30%] right-[8%] animate-float" style={{ animationDelay: '1.5s' }} />
       <TinyBaymax className="bottom-[25%] left-[12%] animate-float" style={{ animationDelay: '2.3s' }} />
       <TinyBaymax className="top-[15%] right-[25%] animate-float" style={{ animationDelay: '0.7s' }} />

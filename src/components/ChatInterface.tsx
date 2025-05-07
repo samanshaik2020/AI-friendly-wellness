@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,9 +28,9 @@ const UserAvatar: React.FC = () => (
 
 const BaymaxAnimation: React.FC = () => (
   <div className="w-full max-w-[300px] h-[300px] mx-auto mb-8 animate-float">
-    <div className="bg-white rounded-full w-full h-full flex items-center justify-center shadow-lg">
-      <div className="relative w-[80%] h-[80%] rounded-full bg-gray-50 flex items-center justify-center">
-        <Heart className="absolute h-12 w-12 text-baymax-red animate-pulse" />
+    <div className="bg-white/90 rounded-2xl w-full h-full flex items-center justify-center shadow-md border border-gray-100">
+      <div className="relative w-[80%] h-[80%] rounded-full bg-gray-50 flex items-center justify-center border border-gray-200">
+        <Heart className="absolute h-10 w-10 text-baymax-red animate-pulse" />
         <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[60%] h-[2px]">
           <div className="w-full h-full flex justify-between">
             <div className="w-2 h-2 rounded-full bg-black" />

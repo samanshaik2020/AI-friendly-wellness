@@ -1,26 +1,17 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-
 const HeroSection: React.FC = () => {
-  return (
-    <div className="relative pt-24 pb-16 overflow-hidden">
+  return <div className="relative pt-24 pb-16 overflow-hidden">
       {/* Background particles */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {[...Array(10)].map((_, i) => (
-          <div 
-            key={i}
-            className="particle float-animation"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              width: `${Math.random() * 10 + 5}px`,
-              height: `${Math.random() * 10 + 5}px`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
-          />
-        ))}
+        {[...Array(10)].map((_, i) => <div key={i} className="particle float-animation" style={{
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        width: `${Math.random() * 10 + 5}px`,
+        height: `${Math.random() * 10 + 5}px`,
+        animationDelay: `${Math.random() * 5}s`
+      }} />)}
       </div>
 
       <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center">
@@ -47,16 +38,10 @@ const HeroSection: React.FC = () => {
         </div>
         <div className="lg:w-1/2 relative">
           <div className="w-full h-[400px] flex items-center justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Baymax" 
-              className="w-[300px] h-[300px] object-contain animate-float"
-            />
+            <img alt="Baymax" className="w-[300px] h-[300px] object-contain animate-float" src="/lovable-uploads/72979835-6b20-4265-8a96-811ed131da3d.jpg" />
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default HeroSection;

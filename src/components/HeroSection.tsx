@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import BaymaxIntro from './BaymaxIntro';
 const HeroSection: React.FC = () => {
-  return <div className="relative pt-24 pb-16 overflow-hidden">
+  const [showIntro, setShowIntro] = useState(true);
+  const [hasSeenIntro, setHasSeenIntro] = useState(false);
+  
+  // Check if user has seen the intro before
+  useEffect(() => {
+    const hasSeenIntroBefore = localStorage.getItem('hasSeenBaymaxIntro');
+    if (hasSeenIntroBefore) {
+      setShowIntro(false);
+      setHasSeenIntro(true);
+    }
+  }, []);
+  
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+    setHasSeenIntro(true);
+    localStorage.setItem('hasSeenBaymaxIntro', 'true');
+  };
+  return (
+    <>
+      {showIntro && <BaymaxIntro onIntroComplete={handleIntroComplete} />}
+      <div className={`relative pt-24 pb-16 overflow-hidden ${!hasSeenIntro ? 'opacity-0' : 'opacity-100 transition-opacity duration-1000'}`}>
       {/* Background particles */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {[...Array(10)].map((_, i) => <div key={i} className="particle float-animation" style={{
@@ -42,6 +63,8 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+    </>
+  );
 };
 export default HeroSection;

@@ -5,21 +5,21 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 const testimonials = [
   {
     quote: "Baymax helped me understand my symptoms when I was too anxious to visit a doctor. The suggestions were spot on!",
-    name: "Sarah J.",
+    name: "Azad",
     role: "Teacher",
-    avatarUrl: "https://i.pravatar.cc/150?img=32"
+    avatarUrl: "https://i.pravatar.cc/150?img=52"
   },
   {
     quote: "I love how Baymax follows up with me after our chats. It feels like having a personal healthcare buddy.",
-    name: "Mike T.",
+    name: "Raj",
     role: "Software Engineer",
-    avatarUrl: "https://i.pravatar.cc/150?img=11"
+    avatarUrl: "https://i.pravatar.cc/150?img=2"
   },
   {
     quote: "The nutrition advice I got was personalized and easy to follow. I've been feeling much better since.",
-    name: "Elena R.",
+    name: "Naveen",
     role: "Graphic Designer",
-    avatarUrl: "https://i.pravatar.cc/150?img=26"
+    avatarUrl: "https://i.pravatar.cc/150?img=23"
   }
 ];
 

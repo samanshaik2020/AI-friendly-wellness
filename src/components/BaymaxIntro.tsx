@@ -11,6 +11,10 @@ const BaymaxIntro: React.FC<BaymaxIntroProps> = ({ onIntroComplete }) => {
   const [animationStep, setAnimationStep] = useState(0);
 
   useEffect(() => {
+    // Reset animation state when component mounts
+    setAnimationStep(0);
+    setShowIntro(true);
+    
     // Animation sequence timing
     const timers = [
       setTimeout(() => setAnimationStep(1), 1000),  // Show Baymax circle

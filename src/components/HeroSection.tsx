@@ -6,10 +6,11 @@ const HeroSection: React.FC = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [hasSeenIntro, setHasSeenIntro] = useState(false);
   
-  // Check if user has seen the intro before
+  // Check if user has seen the intro in this session
   useEffect(() => {
-    const hasSeenIntroBefore = localStorage.getItem('hasSeenBaymaxIntro');
-    if (hasSeenIntroBefore) {
+    // Use sessionStorage instead of localStorage to show intro on each new session
+    const hasSeenIntroThisSession = sessionStorage.getItem('hasSeenBaymaxIntro');
+    if (hasSeenIntroThisSession) {
       setShowIntro(false);
       setHasSeenIntro(true);
     }
@@ -18,7 +19,8 @@ const HeroSection: React.FC = () => {
   const handleIntroComplete = () => {
     setShowIntro(false);
     setHasSeenIntro(true);
-    localStorage.setItem('hasSeenBaymaxIntro', 'true');
+    // Store in sessionStorage to show intro again on new sessions
+    sessionStorage.setItem('hasSeenBaymaxIntro', 'true');
   };
   return (
     <>

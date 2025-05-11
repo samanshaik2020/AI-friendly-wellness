@@ -7,12 +7,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User, Send, Heart, Loader2 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { sendChatMessage, formatChatHistory } from '@/lib/openrouter-api';
+import ProductAd from '@/components/ProductAd';
+import { findRelevantProducts, HealthProduct } from '@/data/healthProducts';
 
 interface Message {
   id: number;
   text: string;
   sender: 'user' | 'baymax';
   timestamp: Date;
+  relatedProducts?: HealthProduct[];
 }
 
 const BaymaxAvatar: React.FC = () => (
@@ -58,6 +61,7 @@ const ChatInterface: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const initialMessageProcessedRef = useRef(false);
+  const [showAds, setShowAds] = useState<boolean>(true); // Toggle for showing/hiding ads
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -86,7 +90,8 @@ const ChatInterface: React.FC = () => {
           id: messages.length + 1,
           text: initialMessage,
           sender: 'user',
-          timestamp: new Date()
+          timestamp: new Date(),
+          relatedProducts: findRelevantProducts(initialMessage) // Find relevant products
         };
         const updatedMessages = [...messages, userMessage];
         setMessages(updatedMessages);
@@ -105,7 +110,8 @@ const ChatInterface: React.FC = () => {
             id: updatedMessages.length + 1,
             text: response,
             sender: 'baymax',
-            timestamp: new Date()
+            timestamp: new Date(),
+            relatedProducts: userMessage.relatedProducts // Pass along the related products
           };
           setMessages(prev => [...prev, baymaxMessage]);
         } catch (error) {
@@ -133,12 +139,16 @@ const ChatInterface: React.FC = () => {
 
   const handleSendMessage = async () => {
     if (input.trim() && !isLoading) {
+      // Find relevant products based on user input
+      const relatedProducts = findRelevantProducts(input);
+      
       // Add user message
       const userMessage: Message = {
         id: messages.length + 1,
         text: input,
         sender: 'user',
-        timestamp: new Date()
+        timestamp: new Date(),
+        relatedProducts: relatedProducts
       };
       const updatedMessages = [...messages, userMessage];
       setMessages(updatedMessages);
@@ -157,7 +167,8 @@ const ChatInterface: React.FC = () => {
           id: updatedMessages.length + 1,
           text: response,
           sender: 'baymax',
-          timestamp: new Date()
+          timestamp: new Date(),
+          relatedProducts: userMessage.relatedProducts // Pass along the related products
         };
         setMessages(prev => [...prev, baymaxMessage]);
       } catch (error) {
@@ -203,25 +214,26 @@ const ChatInterface: React.FC = () => {
       
       {/* Chat interface */}
       <div className="flex flex-col h-full relative z-20">
-        {/* Messages container */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4" id="chat-messages">
+        {/* Messages container - increased width */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 w-full max-w-[1600px] mx-auto" id="chat-messages">
           {messages.map((message) => (
             <div 
               key={message.id} 
-              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} w-full`}
             >
-              <div className={`flex max-w-[80%] ${message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+              <div className={`flex ${message.sender === 'user' ? 'flex-row-reverse max-w-[80%]' : 'flex-row max-w-[95%] lg:max-w-[85%]'} relative w-full`}>
                 {message.sender === 'baymax' ? <BaymaxAvatar /> : <UserAvatar />}
                 
                 <div 
-                  className={`mx-2 p-4 rounded-2xl ${
+                  className={`mx-2 rounded-2xl ${
                     message.sender === 'user' 
-                      ? 'bg-primary text-white' 
+                      ? 'bg-primary text-white p-4' 
                       : 'bg-white/80 backdrop-blur-sm shadow-sm border border-gray-100'
-                  }`}
+                  } ${message.sender === 'baymax' && showAds && message.relatedProducts && message.relatedProducts.length > 0 && !isMobile ? 'flex flex-row gap-4' : 'flex flex-col'}`}
                 >
-                  <div className="whitespace-pre-line">
-                    {message.sender === 'baymax' 
+                  {/* Message content */}
+                  <div className="whitespace-pre-line p-4 flex-1 max-w-[800px] lg:max-w-[1000px]">
+                    {message.sender === 'baymax'
                       ? (() => {
                           // First, handle any HTML tags already in the text
                           let processedText = message.text;
@@ -262,9 +274,30 @@ const ChatInterface: React.FC = () => {
                       : message.text
                     }
                   </div>
-                  <p className={`text-xs mt-1 ${message.sender === 'user' ? 'text-blue-100' : 'text-gray-400'}`}>
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </p>
+                  
+                  {/* Product Advertisements - responsive layout based on device */}
+                  {showAds && message.sender === 'baymax' && message.relatedProducts && message.relatedProducts.length > 0 && (
+                    <div className={`${isMobile ? 
+                      'p-3 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl w-full mt-2' : 
+                      'p-3 border-l border-gray-100 bg-gray-50/50 rounded-r-2xl min-w-[240px] w-[25%] max-w-[400px]'}`}
+                    >
+                      <p className="text-xs text-gray-500 mb-2 font-medium">Recommended Products</p>
+                      <div className={`${isMobile ? 'grid grid-cols-1 gap-3' : 'space-y-3'}`}>
+                        {message.relatedProducts.map(product => (
+                          <ProductAd key={product.id} product={product} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {message.sender === 'user' ? (
+                    <p className="text-xs mt-1 text-blue-100 px-4">
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  ) : (
+                    <div className="absolute bottom-1 left-16 text-xs text-gray-400">
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -291,7 +324,7 @@ const ChatInterface: React.FC = () => {
         
         {/* Input area */}
         <div className="p-4 bg-white/50 backdrop-blur-sm border-t border-gray-100">
-          <div className="flex space-x-2 max-w-4xl mx-auto">
+          <div className="flex space-x-2 max-w-6xl w-full mx-auto">
             <Input 
               type="text"
               placeholder="Type your health question here..."
@@ -314,9 +347,17 @@ const ChatInterface: React.FC = () => {
               )}
             </Button>
           </div>
-          <p className="text-xs text-gray-500 mt-2 text-center max-w-4xl mx-auto">
-            Baymax is here to provide health information, not medical advice. Always consult a healthcare professional.
-          </p>
+          <div className="flex justify-between items-center max-w-6xl w-full mx-auto">
+            <p className="text-xs text-gray-500 mt-2 text-center flex-1">
+              Baymax is here to provide health information, not medical advice. Always consult a healthcare professional.
+            </p>
+            <button 
+              onClick={() => setShowAds(!showAds)} 
+              className="text-xs text-primary underline mt-2 ml-2"
+            >
+              {showAds ? 'Hide Ads' : 'Show Ads'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

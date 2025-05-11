@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Heart } from 'lucide-react';
+import { Sun } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -9,13 +9,13 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-primary/10 p-2 rounded-full">
-                <Heart className="h-6 w-6 text-baymax-red" />
+              <div className="bg-amber-100 p-2 rounded-full">
+                <Sun className="h-6 w-6 text-amber-500" />
               </div>
-              <span className="text-xl font-bold">Baymax Cares</span>
+              <span className="text-xl font-bold text-amber-700">Dr. Helio Cares</span>
             </div>
-            <p className="text-gray-600 mb-4 max-w-md">
-              Your personal healthcare companion, designed with compassion to help you feel your best everyday.
+            <p className="text-amber-700 mb-4 max-w-md">
+              Your sunshine healthcare companion, designed to brighten your health and help you feel your best everyday.
             </p>
           </div>
           
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="border-t border-gray-200 pt-8 text-center text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} Baymax Cares. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Dr. Helio Cares. All rights reserved.</p>
         </div>
       </div>
     </footer>

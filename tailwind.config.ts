@@ -53,8 +53,10 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				baymax: {
-          red: 'hsl(var(--baymax-red))',
+				drhelio: {
+          amber: 'hsl(var(--drhelio-amber))',
+          gold: 'hsl(var(--drhelio-gold))',
+          orange: 'hsl(var(--drhelio-orange))',
         }
 			},
 			borderRadius: {

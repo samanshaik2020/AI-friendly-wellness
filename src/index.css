@@ -37,7 +37,9 @@
 
     --radius: 1rem;
 
-    --baymax-red: 0 100% 50%;
+    --drhelio-amber: 43 96% 56%;
+    --drhelio-gold: 35 92% 33%;
+    --drhelio-orange: 25 95% 53%;
   }
 
   * {
@@ -98,7 +100,7 @@
     pointer-events: none;
   }
 
-  .heartbeat-line {
+  .heartbeat-line, .sunray-line {
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
     animation: dash 15s linear infinite;

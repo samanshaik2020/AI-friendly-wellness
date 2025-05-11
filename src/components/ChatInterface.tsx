@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Send, Heart, Loader2 } from 'lucide-react';
+import { User, Send, Sun, Loader2 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { sendChatMessage, formatChatHistory } from '@/lib/openrouter-api';
 import ProductAd from '@/components/ProductAd';
@@ -13,15 +13,15 @@ import { findRelevantProducts, HealthProduct } from '@/data/healthProducts';
 interface Message {
   id: number;
   text: string;
-  sender: 'user' | 'baymax';
+  sender: 'user' | 'drhelio';
   timestamp: Date;
   relatedProducts?: HealthProduct[];
 }
 
-const BaymaxAvatar: React.FC = () => (
-  <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-    <AvatarImage src="/placeholder.svg" alt="Baymax" />
-    <AvatarFallback className="bg-primary text-white">B</AvatarFallback>
+const HelioAvatar: React.FC = () => (
+  <Avatar className="h-10 w-10 border-2 border-amber-100 shadow-sm">
+    <AvatarImage src="/images/dr-helio-avatar.svg" alt="Dr. Helio" />
+    <AvatarFallback className="bg-amber-400 text-amber-900">H</AvatarFallback>
   </Avatar>
 );
 
@@ -33,23 +33,27 @@ const UserAvatar: React.FC = () => (
   </Avatar>
 );
 
-// Improved Baymax model component
-const TinyBaymax: React.FC<{ className?: string; style?: React.CSSProperties }> = ({ className, style }) => (
+// Improved Dr. Helio model component
+const TinyHelio: React.FC<{ className?: string; style?: React.CSSProperties }> = ({ className, style }) => (
   <div className={`${className} absolute`} style={style}>
-    <div className="relative w-12 h-16 bg-white rounded-t-full rounded-b-2xl flex flex-col items-center justify-center border border-gray-200 shadow-md">
-      {/* Heart indicator */}
-      <div className="absolute top-1/4 w-4 h-4 bg-white rounded-full flex items-center justify-center">
-        <Heart className="h-2 w-2 text-baymax-red animate-pulse" />
+    <div className="relative w-12 h-16 bg-amber-50 rounded-xl flex flex-col items-center justify-center border border-amber-200 shadow-md overflow-hidden">
+      {/* Sun rays around head */}
+      <div className="absolute -top-1 left-0 right-0 h-8 w-full flex justify-center">
+        <div className="w-8 h-8 bg-amber-300 rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-amber-400 rounded-full animate-pulse"></div>
+        </div>
       </div>
       
-      {/* Eyes */}
-      <div className="absolute top-[40%] w-6 h-2 flex justify-between">
-        <div className="w-1.5 h-1.5 bg-black rounded-full opacity-80"></div>
-        <div className="w-1.5 h-1.5 bg-black rounded-full opacity-80"></div>
+      {/* Glasses */}
+      <div className="absolute top-[45%] w-8 h-3 flex justify-center items-center">
+        <div className="w-8 h-2 bg-transparent border-t border-amber-700 flex justify-between px-1">
+          <div className="w-2 h-2 bg-transparent border border-amber-700 rounded-full"></div>
+          <div className="w-2 h-2 bg-transparent border border-amber-700 rounded-full"></div>
+        </div>
       </div>
       
-      {/* Subtle line for the mouth/connection point */}
-      <div className="absolute bottom-2 w-4 h-[1px] bg-gray-300"></div>
+      {/* Smile */}
+      <div className="absolute bottom-3 w-4 h-2 border-b-2 border-amber-700 rounded-full"></div>
     </div>
   </div>
 );
@@ -65,8 +69,8 @@ const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm Baymax, your personal healthcare companion. How can I assist you today?",
-      sender: 'baymax',
+      text: "Hello! I'm Dr. Helio, your sunshine healthcare companion. How can I brighten your health today?",
+      sender: 'drhelio',
       timestamp: new Date()
     }
   ]);
@@ -105,22 +109,22 @@ const ChatInterface: React.FC = () => {
           // Get response from OpenRouter API
           const response = await sendChatMessage(initialMessage, chatHistory);
           
-          // Add Baymax response
-          const baymaxMessage: Message = {
+          // Add Dr. Helio response
+          const drhelioMessage: Message = {
             id: updatedMessages.length + 1,
             text: response,
-            sender: 'baymax',
+            sender: 'drhelio',
             timestamp: new Date(),
             relatedProducts: userMessage.relatedProducts // Pass along the related products
           };
-          setMessages(prev => [...prev, baymaxMessage]);
+          setMessages(prev => [...prev, drhelioMessage]);
         } catch (error) {
           console.error('Error getting AI response:', error);
           // Add error message
           const errorMessage: Message = {
             id: updatedMessages.length + 1,
             text: "I'm having trouble analyzing your information right now. Please try again in a moment.",
-            sender: 'baymax',
+            sender: 'drhelio',
             timestamp: new Date()
           };
           setMessages(prev => [...prev, errorMessage]);
@@ -162,22 +166,22 @@ const ChatInterface: React.FC = () => {
         // Get response from OpenRouter API (Llama 4 Scout)
         const response = await sendChatMessage(input, chatHistory);
         
-        // Add Baymax response
-        const baymaxMessage: Message = {
+        // Add Dr. Helio response
+        const drhelioMessage: Message = {
           id: updatedMessages.length + 1,
           text: response,
-          sender: 'baymax',
+          sender: 'drhelio',
           timestamp: new Date(),
           relatedProducts: userMessage.relatedProducts // Pass along the related products
         };
-        setMessages(prev => [...prev, baymaxMessage]);
+        setMessages(prev => [...prev, drhelioMessage]);
       } catch (error) {
         console.error('Error getting AI response:', error);
         // Add error message
         const errorMessage: Message = {
           id: updatedMessages.length + 1,
           text: "I'm having trouble connecting right now. Please try again in a moment.",
-          sender: 'baymax',
+          sender: 'drhelio',
           timestamp: new Date()
         };
         setMessages(prev => [...prev, errorMessage]);
@@ -188,26 +192,26 @@ const ChatInterface: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-64px)] relative bg-blue-50/30">
-      {/* Tiny Baymax models scattered around with reduced opacity */}
-      <div className="opacity-20">
-        <TinyBaymax className="top-[10%] left-[5%] animate-float" style={{ animationDelay: '0s' }} />
-        <TinyBaymax className="top-[30%] right-[8%] animate-float" style={{ animationDelay: '1.5s' }} />
-        <TinyBaymax className="bottom-[25%] left-[12%] animate-float" style={{ animationDelay: '2.3s' }} />
-        <TinyBaymax className="top-[15%] right-[25%] animate-float" style={{ animationDelay: '0.7s' }} />
-        <TinyBaymax className="bottom-[15%] right-[15%] animate-float" style={{ animationDelay: '3.1s' }} />
+    <div className="flex flex-col h-[calc(100vh-64px)] relative bg-amber-50/30">
+      {/* Tiny Dr. Helio models scattered around with reduced opacity */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <TinyHelio className="top-[10%] left-[5%] animate-float" style={{ animationDelay: '0s' }} />
+        <TinyHelio className="top-[30%] right-[8%] animate-float" style={{ animationDelay: '1.5s' }} />
+        <TinyHelio className="bottom-[25%] left-[12%] animate-float" style={{ animationDelay: '2.3s' }} />
+        <TinyHelio className="top-[15%] right-[25%] animate-float" style={{ animationDelay: '0.7s' }} />
+        <TinyHelio className="bottom-[15%] right-[15%] animate-float" style={{ animationDelay: '3.1s' }} />
         {isMobile && (
           <>
-            <TinyBaymax className="top-[45%] left-[80%] animate-float" style={{ animationDelay: '1.8s' }} />
-            <TinyBaymax className="bottom-[35%] left-[30%] animate-float" style={{ animationDelay: '2.5s' }} />
+            <TinyHelio className="top-[45%] left-[80%] animate-float" style={{ animationDelay: '1.8s' }} />
+            <TinyHelio className="bottom-[35%] left-[30%] animate-float" style={{ animationDelay: '2.5s' }} />
           </>
         )}
         {!isMobile && (
           <>
-            <TinyBaymax className="top-[60%] left-[20%] animate-float" style={{ animationDelay: '1.2s' }} />
-            <TinyBaymax className="top-[70%] right-[30%] animate-float" style={{ animationDelay: '3.5s' }} />
-            <TinyBaymax className="top-[20%] left-[40%] animate-float" style={{ animationDelay: '0.9s' }} />
-            <TinyBaymax className="bottom-[10%] left-[55%] animate-float" style={{ animationDelay: '2.7s' }} />
+            <TinyHelio className="top-[60%] left-[20%] animate-float" style={{ animationDelay: '1.2s' }} />
+            <TinyHelio className="top-[70%] right-[30%] animate-float" style={{ animationDelay: '3.5s' }} />
+            <TinyHelio className="top-[20%] left-[40%] animate-float" style={{ animationDelay: '0.9s' }} />
+            <TinyHelio className="bottom-[10%] left-[55%] animate-float" style={{ animationDelay: '2.7s' }} />
           </>
         )}
       </div>
@@ -222,18 +226,18 @@ const ChatInterface: React.FC = () => {
               className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} w-full`}
             >
               <div className={`flex ${message.sender === 'user' ? 'flex-row-reverse max-w-[80%]' : 'flex-row max-w-[95%] lg:max-w-[85%]'} relative w-full`}>
-                {message.sender === 'baymax' ? <BaymaxAvatar /> : <UserAvatar />}
+                {message.sender === 'drhelio' ? <HelioAvatar /> : <UserAvatar />}
                 
                 <div 
                   className={`mx-2 rounded-2xl ${
                     message.sender === 'user' 
                       ? 'bg-primary text-white p-4' 
                       : 'bg-white/80 backdrop-blur-sm shadow-sm border border-gray-100'
-                  } ${message.sender === 'baymax' && showAds && message.relatedProducts && message.relatedProducts.length > 0 && !isMobile ? 'flex flex-row gap-4' : 'flex flex-col'}`}
+                  } ${message.sender === 'drhelio' && showAds && message.relatedProducts && message.relatedProducts.length > 0 && !isMobile ? 'flex flex-row gap-4' : 'flex flex-col'}`}
                 >
                   {/* Message content */}
                   <div className="whitespace-pre-line p-4 flex-1 max-w-[800px] lg:max-w-[1000px]">
-                    {message.sender === 'baymax'
+                    {message.sender === 'drhelio'
                       ? (() => {
                           // First, handle any HTML tags already in the text
                           let processedText = message.text;
@@ -276,7 +280,7 @@ const ChatInterface: React.FC = () => {
                   </div>
                   
                   {/* Product Advertisements - responsive layout based on device */}
-                  {showAds && message.sender === 'baymax' && message.relatedProducts && message.relatedProducts.length > 0 && (
+                  {showAds && message.sender === 'drhelio' && message.relatedProducts && message.relatedProducts.length > 0 && (
                     <div className={`${isMobile ? 
                       'p-3 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl w-full mt-2' : 
                       'p-3 border-l border-gray-100 bg-gray-50/50 rounded-r-2xl min-w-[240px] w-[25%] max-w-[400px]'}`}
@@ -303,15 +307,24 @@ const ChatInterface: React.FC = () => {
             </div>
           ))}
           
-          {/* Loading indicator */}
+          {/* Loading indicator with emojis */}
           {isLoading && (
             <div className="flex justify-start">
               <div className="flex max-w-[80%] flex-row">
-                <BaymaxAvatar />
-                <div className="mx-2 p-4 rounded-2xl bg-white/80 backdrop-blur-sm shadow-sm border border-gray-100">
+                <HelioAvatar />
+                <div className="mx-2 p-4 rounded-2xl bg-amber-50/80 backdrop-blur-sm shadow-sm border border-amber-100">
                   <div className="flex items-center space-x-2">
-                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                    <p className="text-gray-500">Thinking...</p>
+                    <Loader2 className="h-4 w-4 animate-spin text-amber-500" />
+                    <p className="text-amber-700 flex items-center">
+                      <span className="loading-text">
+                        <span className="mr-1">Analyzing</span>
+                        <span className="inline-block mx-0.5 animate-bounce">☀️</span>
+                        <span className="inline-block mx-0.5 animate-pulse delay-75">🌡️</span>
+                        <span className="inline-block mx-0.5 animate-bounce delay-150">🍊</span>
+                        <span className="inline-block mx-0.5 animate-pulse delay-200">🔆</span>
+                        <span className="inline-block mx-0.5 animate-bounce delay-300">🌻</span>
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -348,8 +361,8 @@ const ChatInterface: React.FC = () => {
             </Button>
           </div>
           <div className="flex justify-between items-center max-w-6xl w-full mx-auto">
-            <p className="text-xs text-gray-500 mt-2 text-center flex-1">
-              Baymax is here to provide health information, not medical advice. Always consult a healthcare professional.
+            <p className="text-xs text-amber-700 mt-2 text-center flex-1">
+              Dr. Helio is here to provide bright health information, not medical advice. Always consult a healthcare professional.
             </p>
             <button 
               onClick={() => setShowAds(!showAds)} 

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Heart } from 'lucide-react';
+import { Sun } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   return (
@@ -11,9 +11,9 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
             <div className="bg-primary/10 p-2 rounded-full">
-              <Heart className="h-6 w-6 text-baymax-red" />
+              <Sun className="h-6 w-6 text-amber-500" />
             </div>
-            <span className="text-xl font-bold text-gray-900">Baymax Cares</span>
+            <span className="text-xl font-bold text-amber-700">Dr. Helio Cares</span>
           </Link>
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-700 hover:text-primary transition-colors">

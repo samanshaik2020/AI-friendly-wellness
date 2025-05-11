@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart } from 'lucide-react';
+import { Sun } from 'lucide-react';
 
-interface BaymaxIntroProps {
+interface DrHelioIntroProps {
   onIntroComplete: () => void;
 }
 
-const BaymaxIntro: React.FC<BaymaxIntroProps> = ({ onIntroComplete }) => {
+const DrHelioIntro: React.FC<DrHelioIntroProps> = ({ onIntroComplete }) => {
   const [showIntro, setShowIntro] = useState(true);
   const [animationStep, setAnimationStep] = useState(0);
 
@@ -17,7 +17,7 @@ const BaymaxIntro: React.FC<BaymaxIntroProps> = ({ onIntroComplete }) => {
     
     // Animation sequence timing
     const timers = [
-      setTimeout(() => setAnimationStep(1), 1000),  // Show Baymax circle
+      setTimeout(() => setAnimationStep(1), 1000),  // Show Dr. Helio circle
       setTimeout(() => setAnimationStep(2), 2000),  // Show eyes
       setTimeout(() => setAnimationStep(3), 3000),  // Show heartbeat
       setTimeout(() => setAnimationStep(4), 4000),  // Show greeting text
@@ -47,35 +47,52 @@ const BaymaxIntro: React.FC<BaymaxIntroProps> = ({ onIntroComplete }) => {
           transition={{ duration: 1 }}
         >
           <div className="relative flex flex-col items-center">
-            {/* Baymax body */}
+            {/* Dr. Helio body */}
             <motion.div
-              className="bg-white w-48 h-48 rounded-full border-4 border-gray-200 shadow-lg flex items-center justify-center"
+              className="bg-amber-50 w-48 h-48 rounded-xl border-4 border-amber-200 shadow-lg flex items-center justify-center overflow-hidden relative"
               initial={{ scale: 0 }}
               animate={{ scale: animationStep >= 1 ? 1 : 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
             >
-              {/* Eyes */}
+              {/* Sun rays background */}
+              <div className="absolute inset-0 bg-gradient-radial from-amber-300 to-amber-50 opacity-50"></div>
+              {/* Glasses */}
               {animationStep >= 2 && (
                 <motion.div 
-                  className="absolute flex space-x-12"
+                  className="absolute flex flex-col items-center"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <div className="w-3 h-3 bg-black rounded-full"></div>
-                  <div className="w-3 h-3 bg-black rounded-full"></div>
+                  <div className="w-24 h-4 flex justify-center items-center">
+                    <div className="w-24 h-2 bg-transparent border-t-2 border-amber-700 flex justify-between px-4">
+                      <div className="w-6 h-6 bg-transparent border-2 border-amber-700 rounded-full"></div>
+                      <div className="w-6 h-6 bg-transparent border-2 border-amber-700 rounded-full"></div>
+                    </div>
+                  </div>
+                  {/* Smile */}
+                  <div className="mt-12 w-12 h-4 border-b-2 border-amber-700 rounded-full"></div>
                 </motion.div>
               )}
 
-              {/* Heartbeat */}
+              {/* Sun rays */}
               {animationStep >= 3 && (
                 <motion.div
-                  className="absolute top-12"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
+                  className="absolute -top-4"
+                  initial={{ scale: 0, rotate: 0 }}
+                  animate={{ scale: 1, rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
                 >
-                  <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+                  <div className="relative">
+                    <Sun className="h-16 w-16 text-amber-400 fill-amber-300" />
+                    <motion.div 
+                      className="absolute inset-0 flex items-center justify-center"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                    >
+                      <Sun className="h-10 w-10 text-amber-500 fill-amber-400" />
+                    </motion.div>
+                  </div>
                 </motion.div>
               )}
             </motion.div>
@@ -88,11 +105,11 @@ const BaymaxIntro: React.FC<BaymaxIntroProps> = ({ onIntroComplete }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                  Hello, I am Baymax
+                <h2 className="text-2xl font-bold text-amber-700 mb-2">
+                  Hello, I am Dr. Helio
                 </h2>
-                <p className="text-lg text-gray-600">
-                  Your personal healthcare companion
+                <p className="text-lg text-amber-600">
+                  Your sunshine healthcare companion
                 </p>
               </motion.div>
             )}
@@ -103,4 +120,4 @@ const BaymaxIntro: React.FC<BaymaxIntroProps> = ({ onIntroComplete }) => {
   );
 };
 
-export default BaymaxIntro;
+export default DrHelioIntro;

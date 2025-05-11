@@ -33,8 +33,8 @@ const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const LLAMA_4_SCOUT_MODEL = 'meta-llama/llama-4-scout:free';
 
 // System prompt for healthcare assistant
-const BAYMAX_SYSTEM_PROMPT = 
-  "You are Baymax, a friendly healthcare companion AI. " +
+const DR_HELIO_SYSTEM_PROMPT = 
+  "You are Dr. Helio, a sunshine healthcare companion AI. " +
   "You provide helpful health information, wellness tips, and emotional support. " +
   "Always be compassionate, informative, and prioritize user well-being. " +
   "Remember to clarify that you're not a replacement for professional medical advice. " +
@@ -69,7 +69,7 @@ export async function sendChatMessage(userMessage: string, chatHistory: ChatMess
   try {
     // Prepare the messages array with system prompt and chat history
     const messages: ChatMessage[] = [
-      { role: 'system', content: BAYMAX_SYSTEM_PROMPT },
+      { role: 'system', content: DR_HELIO_SYSTEM_PROMPT },
       ...chatHistory,
       { role: 'user', content: userMessage }
     ];
@@ -87,7 +87,7 @@ export async function sendChatMessage(userMessage: string, chatHistory: ChatMess
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         'HTTP-Referer': window.location.origin, // Required by OpenRouter
-        'X-Title': 'Baymax Wellness AI' // Optional but recommended
+        'X-Title': 'Dr. Helio Wellness AI' // Optional but recommended
       },
       body: JSON.stringify(requestBody)
     });
@@ -112,7 +112,7 @@ export async function sendChatMessage(userMessage: string, chatHistory: ChatMess
 export function formatChatHistory(messages: Array<{
   id: number;
   text: string;
-  sender: 'user' | 'baymax';
+  sender: 'user' | 'drhelio';
   timestamp: Date;
 }>): ChatMessage[] {
   return messages

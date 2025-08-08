@@ -1,6 +1,5 @@
 // Gemini API service for Gemini 2.0 Flash model
 // Documentation: https://ai.google.dev/docs/gemini_api
-// This file now uses Gemini API instead of OpenRouter
 
 interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
@@ -62,7 +61,6 @@ const DR_HELIO_SYSTEM_PROMPT =
   "<strong>Important Reminder:</strong>\n\n" +
   "It's essential to consult with a healthcare professional for a proper diagnosis and treatment plan. The information provided is for educational purposes only.\n\n" +
   "[Closing question to engage the user]";
-
 
 /**
  * Converts standard chat messages to Gemini API format

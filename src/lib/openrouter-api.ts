@@ -31,11 +31,11 @@ interface GeminiChatResponse {
   }[];
 }
 
-const GEMINI_API_KEY = 'AIzaSyBOxsOnIIEO0suaospk2k0DX7zYbtxYmlo';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GEMINI_API_URL = import.meta.env.VITE_GEMINI_API_URL;
 
 // System prompt for healthcare assistant
-const DR_HELIO_SYSTEM_PROMPT = 
+const DR_HELIO_SYSTEM_PROMPT =
   "You are Dr. Helio, a sunshine healthcare companion AI. " +
   "You provide helpful health information, wellness tips, and emotional support. " +
   "Always be compassionate, informative, and prioritize user well-being. " +
@@ -69,24 +69,24 @@ const DR_HELIO_SYSTEM_PROMPT =
  */
 function convertToGeminiFormat(messages: ChatMessage[]): GeminiChatContent[] {
   const geminiContents: GeminiChatContent[] = [];
-  
+
   // Handle system message separately
   const systemMessage = messages.find(msg => msg.role === 'system');
-  
+
   // Process user and assistant messages
   for (let i = 0; i < messages.length; i++) {
     const message = messages[i];
     if (message.role === 'system') continue; // Skip system messages in this loop
-    
+
     // For Gemini API, we need to format as user/model roles
     const role = message.role === 'user' ? 'user' : 'model';
-    
+
     geminiContents.push({
       role: role,
       parts: [{ text: message.content }]
     });
   }
-  
+
   // If there's a system message, prepend it to the first user message
   if (systemMessage && geminiContents.length > 0) {
     // Find the first user message
@@ -94,11 +94,11 @@ function convertToGeminiFormat(messages: ChatMessage[]): GeminiChatContent[] {
     if (firstUserIndex >= 0) {
       // Prepend system prompt to the first user message
       const firstUserContent = geminiContents[firstUserIndex].parts[0].text;
-      geminiContents[firstUserIndex].parts[0].text = 
+      geminiContents[firstUserIndex].parts[0].text =
         `${systemMessage.content}\n\nUser message: ${firstUserContent}`;
     }
   }
-  
+
   return geminiContents;
 }
 

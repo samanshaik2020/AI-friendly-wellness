@@ -30,8 +30,8 @@ interface GeminiChatResponse {
   }[];
 }
 
-const GEMINI_API_KEY = 'AIzaSyBOxsOnIIEO0suaospk2k0DX7zYbtxYmlo';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GEMINI_API_URL = import.meta.env.VITE_GEMINI_API_URL;
 
 // System prompt for healthcare assistant
 const DR_HELIO_SYSTEM_PROMPT = 

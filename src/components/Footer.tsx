@@ -1,161 +1,99 @@
-
 import React from 'react';
-import { Sun, Heart, Shield, Mail, Phone, MapPin, Twitter, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Sun, Heart, Shield, Mail, Phone, MapPin, Twitter, Facebook, Instagram, Linkedin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-amber-900 text-white overflow-hidden">
+    <footer className="relative bg-gray-900 text-white overflow-hidden pt-24 pb-12">
       {/* Background decorations */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-full morphing-blob"></div>
-        <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-r from-yellow-500/10 to-amber-500/10 rounded-full morphing-blob" style={{animationDelay: '2s'}}></div>
-        
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-5" style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
-          backgroundSize: '20px 20px'
-        }}></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-amber-500/5 rounded-full blur-3xl -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-3xl translate-y-1/3"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Main footer content */}
-        <div className="pt-16 pb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            
-            {/* Brand section */}
-            <div className="lg:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-3 rounded-full shadow-lg glow-effect">
-                  <Sun className="h-8 w-8 text-white" />
-                </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
-                  Dr. Helio Cares
-                </span>
-              </div>
-              
-              <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
-                Your sunshine healthcare companion, designed to brighten your health journey 
-                and help you feel your best every day. Powered by advanced AI and compassionate care.
-              </p>
-              
-              {/* Trust badges */}
-              <div className="flex flex-wrap items-center space-x-6 mb-6">
-                <div className="flex items-center space-x-2 text-sm text-gray-400">
-                  <Shield className="w-4 h-4 text-green-400" />
-                  <span>HIPAA Compliant</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-400">
-                  <Heart className="w-4 h-4 text-red-400" />
-                  <span>24/7 Available</span>
-                </div>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
 
-              {/* Social links */}
-              <div className="flex space-x-4">
-                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-amber-600 rounded-full flex items-center justify-center transition-all duration-300 hover-lift">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-amber-600 rounded-full flex items-center justify-center transition-all duration-300 hover-lift">
-                  <Facebook className="w-5 h-5" />
-                </a>
-                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-amber-600 rounded-full flex items-center justify-center transition-all duration-300 hover-lift">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-amber-600 rounded-full flex items-center justify-center transition-all duration-300 hover-lift">
-                  <Linkedin className="w-5 h-5" />
-                </a>
+          {/* Brand section */}
+          <div className="lg:col-span-5">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-2.5 rounded-xl shadow-lg">
+                <Sun className="h-6 w-6 text-white" />
               </div>
+              <span className="text-2xl font-bold text-white">
+                Dr. Helio
+              </span>
             </div>
-            
-            {/* Quick Links */}
-            <div>
-              <h4 className="font-bold mb-6 text-white text-lg">Quick Links</h4>
-              <ul className="space-y-3">
-                <li>
-                  <a href="#features" className="text-gray-300 hover:text-amber-400 transition-colors duration-300 flex items-center group">
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-amber-400 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#testimonials" className="text-gray-300 hover:text-amber-400 transition-colors duration-300 flex items-center group">
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-amber-400 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    Testimonials
-                  </a>
-                </li>
-                <li>
-                  <a href="#faq" className="text-gray-300 hover:text-amber-400 transition-colors duration-300 flex items-center group">
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-amber-400 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    FAQ
-                  </a>
-                </li>
-                <li>
-                  <Link to="/onboarding" className="text-gray-300 hover:text-amber-400 transition-colors duration-300 flex items-center group">
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-amber-400 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    Get Started
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            
-            {/* Contact & Legal */}
-            <div>
-              <h4 className="font-bold mb-6 text-white text-lg">Support & Legal</h4>
-              <ul className="space-y-3 mb-6">
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-amber-400 transition-colors duration-300 flex items-center group">
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-amber-400 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-amber-400 transition-colors duration-300 flex items-center group">
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-amber-400 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-amber-400 transition-colors duration-300 flex items-center group">
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-amber-400 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    Cookie Policy
-                  </a>
-                </li>
-              </ul>
 
-              {/* Contact info */}
-              <div className="space-y-3 text-sm text-gray-400">
-                <div className="flex items-center space-x-2">
-                  <Mail className="w-4 h-4 text-amber-400" />
-                  <span>hello@drhelio.com</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4 text-amber-400" />
-                  <span>1-800-HELIO-AI</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4 text-amber-400" />
-                  <span>San Francisco, CA</span>
-                </div>
-              </div>
+            <p className="text-gray-400 mb-8 max-w-md leading-relaxed text-lg">
+              Your intelligent healthcare companion. We combine advanced AI with human-centric design to provide accessible, reliable, and compassionate care for everyone.
+            </p>
+
+            <div className="flex space-x-4">
+              {[Twitter, Facebook, Instagram, Linkedin].map((Icon, i) => (
+                <a key={i} href="#" className="w-10 h-10 bg-gray-800 hover:bg-amber-500 rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1 group">
+                  <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Links */}
+          <div className="lg:col-span-2">
+            <h4 className="font-bold mb-6 text-white">Product</h4>
+            <ul className="space-y-4">
+              {['Features', 'Testimonials', 'FAQ', 'Pricing'].map((item) => (
+                <li key={item}>
+                  <a href={`#${item.toLowerCase()}`} className="text-gray-400 hover:text-amber-400 transition-colors flex items-center group">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="lg:col-span-2">
+            <h4 className="font-bold mb-6 text-white">Company</h4>
+            <ul className="space-y-4">
+              {['About', 'Careers', 'Blog', 'Contact'].map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Newsletter */}
+          <div className="lg:col-span-3">
+            <h4 className="font-bold mb-6 text-white">Stay Updated</h4>
+            <p className="text-gray-400 mb-4 text-sm">
+              Subscribe to our newsletter for the latest health tips and updates.
+            </p>
+            <div className="flex">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="bg-gray-800 border border-gray-700 text-white px-4 py-3 rounded-l-xl focus:outline-none focus:border-amber-500 w-full transition-colors"
+              />
+              <button className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-3 rounded-r-xl transition-colors">
+                <ArrowRight className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
-        
+
         {/* Bottom section */}
-        <div className="border-t border-gray-700 pt-8 pb-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} Dr. Helio Cares. All rights reserved. Made with ❤️ for better healthcare.
-            </div>
-            
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <span>🌟 Trusted by 50K+ users</span>
-              <span>•</span>
-              <span>🔒 HIPAA Compliant</span>
-              <span>•</span>
-              <span>🚀 AI-Powered</span>
-            </div>
+        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} Dr. Helio AI. All rights reserved.
+          </div>
+
+          <div className="flex items-center space-x-6 text-sm text-gray-500">
+            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-white transition-colors">Cookie Settings</a>
           </div>
         </div>
       </div>

@@ -1,49 +1,54 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle, Brain, Utensils, Sparkles, Heart, Shield, Clock, Users, Award } from 'lucide-react';
+import { MessageCircle, Brain, Utensils, Sparkles, Heart, Shield, Clock, Users, Award, ArrowRight } from 'lucide-react';
 
 const features = [
   {
-    icon: <MessageCircle className="h-12 w-12" />,
-    title: "Intelligent Health Conversations",
-    description: "Engage in natural, empathetic conversations about your health concerns with our AI companion.",
-    color: "from-blue-500 to-cyan-500",
-    bgColor: "from-blue-50 to-cyan-50"
+    icon: <MessageCircle className="h-8 w-8" />,
+    title: "Intelligent Conversations",
+    description: "Engage in natural, empathetic dialogue about your health concerns with our advanced AI companion.",
+    color: "text-blue-500",
+    bg: "bg-blue-50",
+    border: "group-hover:border-blue-200"
   },
   {
-    icon: <Brain className="h-12 w-12" />,
-    title: "AI-Powered Health Insights",
-    description: "Get personalized health insights powered by advanced medical AI and machine learning.",
-    color: "from-purple-500 to-pink-500",
-    bgColor: "from-purple-50 to-pink-50"
+    icon: <Brain className="h-8 w-8" />,
+    title: "AI-Powered Insights",
+    description: "Leverage state-of-the-art machine learning to receive personalized health insights and analysis.",
+    color: "text-purple-500",
+    bg: "bg-purple-50",
+    border: "group-hover:border-purple-200"
   },
   {
-    icon: <Utensils className="h-12 w-12" />,
-    title: "Personalized Recommendations",
-    description: "Receive tailored suggestions for medicine, nutrition, and recovery based on your needs.",
-    color: "from-green-500 to-emerald-500",
-    bgColor: "from-green-50 to-emerald-50"
+    icon: <Utensils className="h-8 w-8" />,
+    title: "Tailored Recommendations",
+    description: "Get customized suggestions for nutrition, lifestyle changes, and wellness routines.",
+    color: "text-green-500",
+    bg: "bg-green-50",
+    border: "group-hover:border-green-200"
   },
   {
-    icon: <Clock className="h-12 w-12" />,
-    title: "24/7 Availability",
-    description: "Access healthcare guidance anytime, anywhere - Dr. Helio never sleeps.",
-    color: "from-orange-500 to-red-500",
-    bgColor: "from-orange-50 to-red-50"
+    icon: <Clock className="h-8 w-8" />,
+    title: "Always Available",
+    description: "Access professional-grade healthcare guidance 24/7, whenever you need it most.",
+    color: "text-orange-500",
+    bg: "bg-orange-50",
+    border: "group-hover:border-orange-200"
   },
   {
-    icon: <Shield className="h-12 w-12" />,
-    title: "Privacy & Security",
-    description: "Your health data is protected with enterprise-grade security and HIPAA compliance.",
-    color: "from-indigo-500 to-blue-500",
-    bgColor: "from-indigo-50 to-blue-50"
+    icon: <Shield className="h-8 w-8" />,
+    title: "Secure & Private",
+    description: "Your health data is encrypted and protected with enterprise-grade security protocols.",
+    color: "text-indigo-500",
+    bg: "bg-indigo-50",
+    border: "group-hover:border-indigo-200"
   },
   {
-    icon: <Award className="h-12 w-12" />,
-    title: "Evidence-Based Care",
-    description: "All recommendations are based on the latest medical research and clinical guidelines.",
-    color: "from-amber-500 to-yellow-500",
-    bgColor: "from-amber-50 to-yellow-50"
+    icon: <Award className="h-8 w-8" />,
+    title: "Evidence-Based",
+    description: "All recommendations are grounded in the latest medical research and clinical guidelines.",
+    color: "text-amber-500",
+    bg: "bg-amber-50",
+    border: "group-hover:border-amber-200"
   }
 ];
 
@@ -54,7 +59,7 @@ const FeatureSection: React.FC = () => {
   useEffect(() => {
     const observers = featureRefs.current.map((ref, index) => {
       if (!ref) return null;
-      
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
@@ -64,12 +69,12 @@ const FeatureSection: React.FC = () => {
                 newState[index] = true;
                 return newState;
               });
-            }, index * 200); // Stagger animation
+            }, index * 100);
           }
         },
         { threshold: 0.1 }
       );
-      
+
       observer.observe(ref);
       return observer;
     });
@@ -80,102 +85,62 @@ const FeatureSection: React.FC = () => {
   }, []);
 
   return (
-    <div id="features" className="relative py-24 bg-gradient-to-br from-gray-50 via-white to-amber-50/30 overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-amber-200/20 to-orange-200/20 rounded-full morphing-blob"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-blue-200/20 to-purple-200/20 rounded-full morphing-blob" style={{animationDelay: '2s'}}></div>
-        
-        {/* Floating particles */}
-        {[...Array(8)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute w-2 h-2 bg-amber-300/40 rounded-full animate-bounce"
-            style={{
-              top: `${20 + Math.random() * 60}%`,
-              left: `${10 + Math.random() * 80}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
+    <div id="features" className="relative py-32 bg-gray-50 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#F59E0B 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
+
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section header */}
-        <div className="text-center mb-20 fade-in-up">
-          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-100 to-orange-100 rounded-full text-amber-800 text-sm font-medium mb-6 glow-effect">
-            <Sparkles className="w-4 h-4 mr-2" />
-            Comprehensive Healthcare Features
+        <div className="text-center mb-24 max-w-3xl mx-auto">
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-amber-100/50 border border-amber-200 text-amber-800 text-xs font-semibold tracking-wide uppercase mb-6">
+            Why Choose Dr. Helio
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text text-shadow-glow">
-            How Dr. Helio Transforms
-            <br />Your Healthcare Experience
+
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
+            Comprehensive Care, <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Powered by Intelligence</span>
           </h2>
-          
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Discover the powerful features that make Dr. Helio your most trusted healthcare companion, 
-            combining cutting-edge AI with compassionate care.
+
+          <p className="text-xl text-gray-600 leading-relaxed">
+            Experience a new standard of digital healthcare with features designed to prioritize your well-being and peace of mind.
           </p>
         </div>
 
         {/* Features grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div 
+            <div
               key={index}
               ref={el => featureRefs.current[index] = el}
-              className={`group relative overflow-hidden rounded-2xl transition-all duration-700 hover-lift ${
-                visibleFeatures[index] 
-                  ? 'opacity-100 translate-y-0' 
+              className={`group relative p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 ${visibleFeatures[index]
+                  ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8'
-              }`}
-              style={{
-                transitionDelay: `${index * 100}ms`
-              }}
+                }`}
+              style={{ transitionDelay: `${index * 50}ms` }}
             >
-              {/* Card background with gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-60`}></div>
-              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
-              
-              {/* Card content */}
-              <div className="relative p-8 h-full flex flex-col">
-                {/* Icon container */}
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 glow-effect`}>
-                  {feature.icon}
-                </div>
-                
-                {/* Content */}
-                <h3 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-amber-700 transition-colors">
-                  {feature.title}
-                </h3>
-                
-                <p className="text-gray-600 leading-relaxed flex-grow">
-                  {feature.description}
-                </p>
-                
-                {/* Hover effect indicator */}
-                <div className="mt-6 flex items-center text-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-sm font-medium">Learn more</span>
-                  <Sparkles className="w-4 h-4 ml-2" />
-                </div>
+              <div className={`w-16 h-16 rounded-2xl ${feature.bg} ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                {feature.icon}
               </div>
-              
-              {/* Decorative elements */}
-              <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
-              <div className="absolute bottom-4 left-4 w-6 h-6 bg-gradient-to-br from-white/10 to-transparent rounded-full"></div>
+
+              <h3 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-amber-600 transition-colors">
+                {feature.title}
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed mb-6">
+                {feature.description}
+              </p>
+
+              <div className="flex items-center text-sm font-semibold text-gray-900 group-hover:text-amber-600 transition-colors cursor-pointer">
+                Learn more
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </div>
+
+              {/* Hover Gradient Border */}
+              <div className={`absolute inset-0 border-2 border-transparent ${feature.border} rounded-3xl pointer-events-none transition-colors duration-300`}></div>
             </div>
           ))}
-        </div>
-
-        {/* Bottom CTA section */}
-        <div className="text-center mt-20 fade-in-up">
-          <div className="inline-flex items-center space-x-6 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-4 rounded-full shadow-lg glow-effect">
-            <Heart className="w-6 h-6" />
-            <span className="font-semibold">Trusted by thousands of users worldwide</span>
-            <Users className="w-6 h-6" />
-          </div>
         </div>
       </div>
     </div>

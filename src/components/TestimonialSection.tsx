@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star, Quote, Heart, Sparkles } from 'lucide-react';
+import { Star, Quote, Heart } from 'lucide-react';
 
 const testimonials = [
   {
@@ -15,7 +14,7 @@ const testimonials = [
   {
     quote: "I love how Dr. Helio follows up with me after our chats. It feels like having a sunshine healthcare companion by my side.",
     name: "Raj",
-    role: "Software Engineer", 
+    role: "Software Engineer",
     avatarUrl: "https://i.pravatar.cc/150?img=2",
     rating: 5,
     location: "San Francisco, USA"
@@ -61,7 +60,7 @@ const TestimonialSection: React.FC = () => {
   useEffect(() => {
     const observers = testimonialRefs.current.map((ref, index) => {
       if (!ref) return null;
-      
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
@@ -71,12 +70,12 @@ const TestimonialSection: React.FC = () => {
                 newState[index] = true;
                 return newState;
               });
-            }, index * 150);
+            }, index * 100);
           }
         },
         { threshold: 0.1 }
       );
-      
+
       observer.observe(ref);
       return observer;
     });
@@ -87,167 +86,83 @@ const TestimonialSection: React.FC = () => {
   }, []);
 
   return (
-    <div id="testimonials" className="relative py-24 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 overflow-hidden">
-      {/* Enhanced background elements */}
-      <div className="absolute inset-0 z-0">
-        {/* Animated background rays */}
-        <svg className="absolute top-1/2 left-0 w-full h-32 -translate-y-1/2 opacity-20" viewBox="0 0 1200 120">
-          <path 
-            className="sunray-line" 
-            d="M0,60 Q200,20 400,60 T800,40 T1200,60" 
-            fill="none" 
-            stroke="url(#gradient1)" 
-            strokeWidth="3"
-          />
-          <path 
-            className="sunray-line" 
-            d="M0,80 Q300,40 600,80 T1200,80" 
-            fill="none" 
-            stroke="url(#gradient2)" 
-            strokeWidth="2"
-            style={{animationDelay: '2s'}}
-          />
-          <defs>
-            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.3"/>
-              <stop offset="50%" stopColor="#F97316" stopOpacity="0.6"/>
-              <stop offset="100%" stopColor="#EAB308" stopOpacity="0.3"/>
-            </linearGradient>
-            <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#EAB308" stopOpacity="0.2"/>
-              <stop offset="50%" stopColor="#F59E0B" stopOpacity="0.5"/>
-              <stop offset="100%" stopColor="#F97316" stopOpacity="0.2"/>
-            </linearGradient>
-          </defs>
-        </svg>
-
-        {/* Floating elements */}
-        <div className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-r from-amber-200/30 to-orange-200/30 rounded-full morphing-blob"></div>
-        <div className="absolute bottom-20 right-20 w-32 h-32 bg-gradient-to-r from-yellow-200/30 to-amber-200/30 rounded-full morphing-blob" style={{animationDelay: '3s'}}></div>
-        
-        {/* Sparkle effects */}
-        {[...Array(6)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute animate-pulse"
-            style={{
-              top: `${20 + Math.random() * 60}%`,
-              left: `${10 + Math.random() * 80}%`,
-              animationDelay: `${Math.random() * 4}s`
-            }}
-          >
-            <Sparkles className="w-4 h-4 text-amber-400/60" />
-          </div>
-        ))}
-      </div>
+    <div id="testimonials" className="relative py-32 bg-white overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section header */}
-        <div className="text-center mb-20 fade-in-up">
-          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-100 to-orange-100 rounded-full text-amber-800 text-sm font-medium mb-6 glow-effect">
-            <Heart className="w-4 h-4 mr-2" />
-            Loved by Thousands Worldwide
+        <div className="text-center mb-24 max-w-3xl mx-auto">
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-amber-100/50 border border-amber-200 text-amber-800 text-xs font-semibold tracking-wide uppercase mb-6">
+            Testimonials
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text text-shadow-glow">
-            What People Say About
-            <br />Dr. Helio
+
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
+            Loved by Thousands <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Worldwide</span>
           </h2>
-          
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of satisfied users who have transformed their healthcare experience with Dr. Helio's 
-            compassionate AI-powered guidance.
+
+          <p className="text-xl text-gray-600 leading-relaxed">
+            Join the growing community of users who trust Dr. Helio for their daily health and wellness guidance.
           </p>
         </div>
 
         {/* Testimonials grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div 
+            <div
               key={index}
               ref={el => testimonialRefs.current[index] = el}
-              className={`group relative overflow-hidden rounded-2xl transition-all duration-700 hover-lift ${
-                visibleTestimonials[index] 
-                  ? 'opacity-100 translate-y-0' 
+              className={`group relative p-8 bg-gray-50 rounded-3xl border border-gray-100 hover:bg-white hover:shadow-xl transition-all duration-500 hover:-translate-y-1 ${visibleTestimonials[index]
+                  ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8'
-              }`}
-              style={{
-                transitionDelay: `${index * 100}ms`
-              }}
+                }`}
+              style={{ transitionDelay: `${index * 50}ms` }}
             >
-              {/* Card background */}
-              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm border border-amber-100/50 rounded-2xl shadow-lg"></div>
-              
-              {/* Quote decoration */}
-              <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full flex items-center justify-center">
-                <Quote className="w-6 h-6 text-amber-600" />
-              </div>
-              
-              {/* Card content */}
-              <div className="relative p-8">
-                {/* Avatar and user info */}
-                <div className="flex items-center mb-6">
-                  <Avatar className="w-14 h-14 border-3 border-gradient-to-r from-amber-400 to-orange-400 shadow-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                    <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} />
-                    <AvatarFallback className="bg-gradient-to-br from-amber-100 to-orange-100 text-amber-700 font-semibold">
-                      {testimonial.name.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  
-                  <div>
-                    <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
-                    <p className="text-xs text-amber-600">{testimonial.location}</p>
-                  </div>
-                </div>
-
-                {/* Rating */}
-                <div className="flex items-center mb-4">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-1">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      className="w-4 h-4 text-amber-400 fill-current" 
-                    />
+                    <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
                   ))}
                 </div>
-
-                {/* Quote */}
-                <blockquote className="text-gray-700 leading-relaxed italic mb-4 group-hover:text-gray-900 transition-colors">
-                  "{testimonial.quote}"
-                </blockquote>
-
-                {/* Verified badge */}
-                <div className="flex items-center text-green-600 text-sm">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  Verified User
-                </div>
+                <Quote className="w-8 h-8 text-amber-100 group-hover:text-amber-200 transition-colors" />
               </div>
 
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 to-orange-400/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <blockquote className="text-gray-700 leading-relaxed mb-8 text-lg">
+                "{testimonial.quote}"
+              </blockquote>
+
+              <div className="flex items-center">
+                <Avatar className="w-12 h-12 border-2 border-white shadow-sm mr-4">
+                  <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} />
+                  <AvatarFallback className="bg-amber-100 text-amber-700">
+                    {testimonial.name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+
+                <div>
+                  <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
+                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
         {/* Stats section */}
-        <div className="mt-20 text-center fade-in-up">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amber-600 mb-2">50K+</div>
-              <div className="text-gray-600">Happy Users</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amber-600 mb-2">1M+</div>
-              <div className="text-gray-600">Conversations</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amber-600 mb-2">4.9★</div>
-              <div className="text-gray-600">Average Rating</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amber-600 mb-2">24/7</div>
-              <div className="text-gray-600">Availability</div>
-            </div>
+        <div className="mt-24 pt-12 border-t border-gray-100">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto text-center">
+            {[
+              { label: 'Happy Users', value: '50K+' },
+              { label: 'Conversations', value: '1M+' },
+              { label: 'App Store Rating', value: '4.9' },
+              { label: 'Response Time', value: '<1s' },
+            ].map((stat, i) => (
+              <div key={i} className="space-y-2">
+                <div className="text-4xl font-bold text-gray-900">{stat.value}</div>
+                <div className="text-gray-500 font-medium">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
